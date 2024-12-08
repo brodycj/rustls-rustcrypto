@@ -39,7 +39,7 @@ portable-atomic-util = { version = "0.2.4", default-features = false, features =
 rand_core = { version = "0.6.4", default-features = false, features = ["getrandom"] }
 rsa = { version = "0.9.2", default-features = false, features = ["sha2"] }
 # XXX XXX
-rustls = { version = "0.23.19", default-features = false, features = ["critical-section"], git = "https://github.com/brodycj/rustls", branch = "portable-atomic-arc-option" }
+rustls = { version = "0.23.19", default-features = false, git = "https://github.com/brodycj/rustls", branch = "portable-atomic-arc-option" }
 # XXX TBD ??? ???
 # rustls-pki-types = { version = "1.10.0", default-features = false }
 sec1 = { version = "0.7.3", default-features = false, features = ["pkcs8", "pem"] }

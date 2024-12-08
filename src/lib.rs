@@ -38,10 +38,11 @@ compile_error!("Rustls currently does not support alloc-less environments");
 #[cfg(feature = "alloc")]
 extern crate alloc;
 
-// XXX TODO XXX XXX
-// #[cfg(feature = "alloc")]
-// use alloc::sync::Arc;
-// XXX TODO XXX XXX
+// XXX TBD ???: EXTRA CFG; CONSIDER EXPORTED ALIAS FROM RUSTLS PR 2200
+#[cfg(not(feature = "critical-section"))]
+#[cfg(feature = "alloc")]
+use alloc::sync::Arc;
+#[cfg(feature = "critical-section")]
 use portable_atomic_util::Arc;
 
 use rustls::crypto::{
