@@ -42,7 +42,7 @@ extern crate alloc;
 // #[cfg(feature = "alloc")]
 // use alloc::sync::Arc;
 // XXX TODO XXX XXX
-pub use portable_atomic_util::Arc;
+use portable_atomic_util::Arc;
 
 use rustls::crypto::{
     CipherSuiteCommon, CryptoProvider, GetRandomFailed, KeyProvider, SecureRandom,
