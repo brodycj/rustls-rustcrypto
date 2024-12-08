@@ -5,7 +5,9 @@ edition = "2021"
 license = "MIT OR Apache-2.0"
 
 [dependencies]
-rustls = { version = "0.23.0", default-features = false, features = ["std"] }
+# XXX TODO SWITCH BACK TO PUBLISHED VERSION ONCE RUSTLS PR 2200 IS APPROVED / MERGED / PUBLISHED
+# rustls = { version = "0.23.0", default-features = false, features = ["std"] }
+rustls = { version = "0.23.19", default-features = false, features = ["std"], git = "https://github.com/brodycj/rustls", branch = "portable-atomic-arc-option" }
 rustls-rustcrypto = { path = "../../" }
 openssl = { version = "0.10", default-features = false }
 pem-rfc7468 = { version = "0.7", default-features = false, features = ["alloc"] }
