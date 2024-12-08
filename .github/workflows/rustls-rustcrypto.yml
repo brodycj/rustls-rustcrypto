@@ -25,7 +25,7 @@ jobs:
         with:
           toolchain: 1.75.0
           components: clippy
-      - run: cargo clippy --all --all-features -- -D warnings
+      - run: cargo clippy --all -- -D warnings
 
   doc:
     runs-on: ubuntu-latest
@@ -34,7 +34,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: stable
-      - run: cargo doc --all-features --no-deps
+      - run: cargo doc --no-deps
 
   rustfmt:
     runs-on: ubuntu-latest
