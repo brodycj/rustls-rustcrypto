@@ -1,4 +1,6 @@
-use std::sync::Arc;
+// XXX XXX
+// use std::sync::Arc;
+use portable_atomic_util::Arc;
 
 use rustls::server::ClientHello;
 
