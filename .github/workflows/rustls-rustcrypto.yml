@@ -81,7 +81,7 @@ jobs:
           targets: ${{ matrix.target }}
       # QUICK CARGO WORKAROUNDS to get build working without atomic ptr
       - run: cargo update
-      - run: cargo add spin -F portable-atomic
+      - run: cargo add spin -F portable_atomic
       - run: cargo build --no-default-features --features alloc,critical-section --release --target ${{ matrix.target }}
         env:
           RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
