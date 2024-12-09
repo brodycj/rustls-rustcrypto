@@ -65,6 +65,27 @@ jobs:
           targets: ${{ matrix.target }}
       - run: cargo build --no-default-features --features tls12,alloc --release --target ${{ matrix.target }}
 
+  no_atomic_ptr:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        rust:
+          - nightly
+        target:
+          - riscv32imc-unknown-none-elf
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.rust }}
+          targets: ${{ matrix.target }}
+      # QUICK CARGO WORKAROUNDS to get build working without atomic ptr
+      - run: cargo update
+      - run: cargo add spin -F portable-atomic
+      - run: cargo build --no-default-features --features alloc,critical-section --release --target ${{ matrix.target }}
+        env:
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
+
   test:
     strategy:
       matrix:
