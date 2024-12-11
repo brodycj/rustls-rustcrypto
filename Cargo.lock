@@ -692,8 +692,8 @@ dependencies = [
 
 [[package]]
 name = "rustls"
-version = "0.23.19"
-source = "git+https://github.com/brodycj/rustls?branch=portable-atomic-arc-option#e538bb3aa61d47c33cd9e445791fe84192f09d6a"
+version = "0.23.20"
+source = "git+https://github.com/brodycj/rustls?branch=portable-atomic-arc-option#b6bceb10395c9fc62bd5a41d430ae44529258e1a"
 dependencies = [
  "log",
  "once_cell",
