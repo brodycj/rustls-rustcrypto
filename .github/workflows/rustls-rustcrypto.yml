@@ -25,7 +25,7 @@ jobs:
         with:
           toolchain: 1.75.0
           components: clippy
-      - run: cargo clippy --all --all-features -- -D warnings
+      - run: cargo clippy --all -- -D warnings
 
   doc:
     runs-on: ubuntu-latest
@@ -34,7 +34,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: stable
-      - run: cargo doc --all-features --no-deps
+      - run: cargo doc --no-deps
 
   rustfmt:
     runs-on: ubuntu-latest
@@ -65,6 +65,27 @@ jobs:
           targets: ${{ matrix.target }}
       - run: cargo build --no-default-features --features tls12,alloc --release --target ${{ matrix.target }}
 
+  no_atomic_ptr:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        rust:
+          - nightly
+        target:
+          - riscv32imc-unknown-none-elf
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.rust }}
+          targets: ${{ matrix.target }}
+      # QUICK CARGO WORKAROUNDS to get build working without atomic ptr
+      - run: cargo update
+      - run: cargo add spin -F portable_atomic
+      - run: cargo build --no-default-features --features alloc,critical-section --release --target ${{ matrix.target }}
+        env:
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
+
   test:
     strategy:
       matrix:
@@ -81,6 +102,22 @@ jobs:
       - run: cargo test --features tls12
       - name: Test no_std with alloc
         run: cargo test --no-default-features --features tls12,alloc
+
+  test-critical-section:
+    strategy:
+      matrix:
+        toolchain:
+          - nightly
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: RustCrypto/actions/cargo-cache@master
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.toolchain }}
+      - run: cargo test --features critical-section
+        env:
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
 
   cross:
     strategy:
@@ -99,4 +136,23 @@ jobs:
           toolchain: ${{ matrix.rust }}
           targets: ${{ matrix.target }}
       - uses: RustCrypto/actions/cross-install@master
+      - run: cross test --release --target ${{ matrix.target }} --features logging
+
+  cross-unstable:
+    strategy:
+      matrix:
+        include:
+          - target: powerpc-unknown-linux-gnu
+            rust: nightly
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: ${{ matrix.deps }}
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.rust }}
+          targets: ${{ matrix.target }}
+      - uses: RustCrypto/actions/cross-install@master
       - run: cross test --release --target ${{ matrix.target }} --all-features
+        env:
+          RUSTFLAGS: --cfg portable_atomic_unstable_coerce_unsized
