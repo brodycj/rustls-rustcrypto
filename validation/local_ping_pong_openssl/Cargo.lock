@@ -734,7 +734,7 @@ dependencies = [
 [[package]]
 name = "rustls"
 version = "0.23.20"
-source = "git+https://github.com/brodycj/rustls?branch=portable-atomic-arc-option#b6bceb10395c9fc62bd5a41d430ae44529258e1a"
+source = "git+https://github.com/brodycj/rustls?branch=portable-atomic-arc-option#e4a8c77e001e201fea7752cbd28aac434fa08c54"
 dependencies = [
  "once_cell",
  "rustls-pki-types",
