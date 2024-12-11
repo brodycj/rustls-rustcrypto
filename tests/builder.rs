@@ -1,6 +1,4 @@
-// XXX TODO XXX
-// use std::sync::Arc;
-use rustls::internal::alias::Arc;
+use rustls::util::alias::Arc;
 
 use rustls::ClientConfig as RusTlsClientConfig;
 use rustls::ServerConfig as RusTlsServerConfig;
